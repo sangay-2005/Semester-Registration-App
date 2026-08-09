@@ -67,6 +67,21 @@ fun SemesterRegistrationScreen() {
     var selectedBloodGroup by remember { mutableStateOf(bloodGroups[0]) }
     var bloodGroupExpanded by remember { mutableStateOf(false) }
 
+    val programs = listOf(
+        "BE Architecture",
+        "BE Civil",
+        "BE Electrical",
+        "BE Electronics and Communication",
+        "BE Engineering Geology",
+        "BE Instrumentation and Control",
+        "BE Information Technology",
+        "BE Mechanical",
+        "BE Software Engineering",
+        "BE Water Resource"
+    )
+    var selectedProgram by remember { mutableStateOf(programs[0]) }
+    var programExpanded by remember { mutableStateOf(false) }
+
     // AS = Autumn Semester, SS = Spring Semester
     val semesterOptions = listOf("AS (Autumn Semester)", "SS (Spring Semester)")
     var selectedSemester by remember { mutableStateOf(semesterOptions[0]) }
@@ -204,6 +219,31 @@ fun SemesterRegistrationScreen() {
                         shape = RoundedCornerShape(10.dp),
                         modifier = Modifier.fillMaxWidth()
                     )
+                    Spacer(modifier = Modifier.height(12.dp))
+
+                    // BE Programme dropdown
+                    ExposedDropdownMenuBox(
+                        expanded = programExpanded,
+                        onExpandedChange = { programExpanded = !programExpanded }
+                    ) {
+                        OutlinedTextField(
+                            value = selectedProgram,
+                            onValueChange = {},
+                            readOnly = true,
+                            label = { Text("Programme") },
+                            shape = RoundedCornerShape(10.dp),
+                            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = programExpanded) },
+                            modifier = Modifier.menuAnchor().fillMaxWidth()
+                        )
+                        ExposedDropdownMenu(expanded = programExpanded, onDismissRequest = { programExpanded = false }) {
+                            programs.forEach { option ->
+                                DropdownMenuItem(text = { Text(option) }, onClick = {
+                                    selectedProgram = option
+                                    programExpanded = false
+                                })
+                            }
+                        }
+                    }
                     Spacer(modifier = Modifier.height(12.dp))
 
                     // Blood Group dropdown
